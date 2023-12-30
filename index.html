@@ -29,7 +29,7 @@
       switchTab();
       window.addEventListener('hashchange', switchTab, false);
   })();
-  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Trivializer</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item is-active" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/links">Links</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-12-29T06:04:21.000Z" title="12/29/2023, 2:04:21 PM">2023-12-29</time>发表</span><span class="level-item"><time dateTime="2023-12-30T11:56:42.134Z" title="12/30/2023, 7:56:42 PM">2023-12-30</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Program-Calculation/">Program Calculation</a></span><span class="level-item">6 分钟读完 (大约865个字)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2023/12/29/Program-Calculation-Fusion-and-Tupling/">Program Calculation: Fusion and Tupling</a></p><div class="content"><h1 id="fusion">Fusion</h1>
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Trivializer</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item is-active" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a><a class="navbar-item" href="/links">Links</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-12-29T06:04:21.000Z" title="12/29/2023, 2:04:21 PM">2023-12-29</time>发表</span><span class="level-item"><time dateTime="2023-12-30T14:47:28.686Z" title="12/30/2023, 10:47:28 PM">2023-12-30</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Program-Calculation/">Program Calculation</a></span><span class="level-item">8 分钟读完 (大约1143个字)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2023/12/29/Program-Calculation-Fusion-and-Tupling/">Program Calculation: Fusion and Tupling</a></p><div class="content"><h1 id="fusion">Fusion</h1>
 <p>考虑计算List最大值的 <code>max</code> 函数. 利用
 <code>sort</code>，我们可以给出一个简单的规约：</p>
 <figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">max</span> = head . sort</span><br><span class="line">    <span class="keyword">where</span> sort = foldr insert []</span><br><span class="line">          insert x [] = [x]</span><br><span class="line">          insert x (y:ys) | x &gt;= y    = x : y : ys</span><br><span class="line">                          | otherwise = y : insert x ys</span><br></pre></td></tr></table></figure>
@@ -40,8 +40,10 @@
 这样我们引入一个新的概念：<strong>Fusion</strong>.</p>
 <h2 id="fusion-law-for-foldr">Fusion Law for <code>foldr</code></h2>
 <p>在处理List上的问题时经常会用到<code>foldr</code>.
-在这里，我们考虑把一个函数<code>f</code>整合入<code>foldr</code>中，给出如下的Lemma:</p>
+在这里，我们考虑把一个外围的函数<code>f</code>整合入<code>foldr</code>中，给出如下的Lemma:</p>
 <figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">f</span> (a ⊕ r) = a ⊗ f r</span><br><span class="line"><span class="comment">------------------------------------</span></span><br><span class="line"><span class="title">f</span> · foldr (⊕) e = foldr (⊗) (f e)</span><br></pre></td></tr></table></figure>
+<p>在这里和以后的一些表示中，<span
+class="math inline">\(r\)</span>意味着“recursive”，即<code>foldr</code>的递归部分.</p>
 <p>因此我们需要的是通过程序演算找到合适的运算符⊗.
 以<code>max</code>为例，可以对<code>head (insert a r)</code>做如下的演算：</p>
 <ul>
@@ -77,6 +79,7 @@
 \text{then} \space a \space \text{else} \space \text{head} \space r \\
 \end{align*}
 \]</span></p>
+<p>（以后的演算会适当省略一些推理依据，并按照Haskell的语法来书写）</p>
 <p>最后我们得到了一个合适的运算符 <span class="math inline">\(\otimes =
 \text{if} \space a \geqslant \text{head} \space r \space \text{then}
 \space a \space \text{else} \space \text{head} \space
@@ -103,6 +106,23 @@ r\)</span>，因此我们可以得到：</p>
 <figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">fastrev</span> xs = helper xs []</span><br><span class="line">    <span class="keyword">where</span> helper [] y = y</span><br><span class="line">          helper (x:xs) y = helper xs (x:y)</span><br></pre></td></tr></table></figure>
 <p>这是我们常见的<code>fastrev</code>的样子.
 通过以上的例子，我们可以看到Fusion Law的作用.</p>
+<h3 id="exercises">Exercises</h3>
+<p>利用Fusion Law证明以下等式：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. foldr (⊕) e . map f = foldr (⊗) e</span><br><span class="line">      <span class="keyword">where</span> a ⊗ r = f a ⊕ r</span><br><span class="line"><span class="number">2</span>. map f . map g = map (f . g)</span><br><span class="line"><span class="number">3</span>. foldr (⊕) e . filter p = foldr (⊗) e</span><br><span class="line">      <span class="keyword">where</span> a ⊗ r = <span class="keyword">if</span> p a <span class="keyword">then</span> a ⊕ r <span class="keyword">else</span> r</span><br></pre></td></tr></table></figure>
+<h3 id="solution">Solution</h3>
+<p>考虑<code>map</code>也可以利用<code>foldr</code>来实现：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">map</span> f = foldr ((:) . f) []</span><br></pre></td></tr></table></figure>
+<p>因此，我们便可以利用Fusion
+Law，将外围原有的<code>foldr</code>整合进<code>map</code>中.
+记<code>u = foldr (⊕) e</code>，则：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">u</span> (((:) . f) a r) = u (f a : r)</span><br><span class="line">                  = f a ⊕ u r</span><br><span class="line">                  = a ⊗ u r</span><br><span class="line">    <span class="keyword">where</span> a ⊗ r = f a ⊕ r</span><br></pre></td></tr></table></figure>
+<p>由Fusion Law, 1是显然的.</p>
+<p>考虑 2
+中<code>map f</code>也可以写成<code>foldr</code>,这就回到了第一个问题，也是显然的.</p>
+<p>类似地，3
+中<code>filter</code>也可以利用<code>foldr</code>来实现：</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">filter</span> p = foldr (λ a r -&gt; <span class="keyword">if</span> p a <span class="keyword">then</span> a : r <span class="keyword">else</span> r) []</span><br></pre></td></tr></table></figure>
+<p>至此，我们利用Fusion Law证明了以上三个等式.</p>
 <p>To Be Continued...</p>
 </div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-11-04T13:36:22.000Z" title="11/4/2023, 9:36:22 PM">2023-11-04</time>发表</span><span class="level-item"><time dateTime="2023-12-29T05:29:37.927Z" title="12/29/2023, 1:29:37 PM">2023-12-29</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/Calculus/">Calculus</a></span><span class="level-item">2 分钟读完 (大约320个字)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2023/11/04/Problems-on-Contiunity/">连续函数的几个问题！</a></p><div class="content"><p><strong>Q</strong> $g(x)$ 是定义在 $ [0,1] $ 上的函数，满足 $ g(0)&#x3D;1,g(1)&#x3D;0 $，如果函数 $ g(x)+ \tan x $ 单调上升，证明：$ g(x) $可以取到 $ [0,1] $ 内任意的值. </p>
 <hr>
